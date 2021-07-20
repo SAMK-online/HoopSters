@@ -1,0 +1,132 @@
+import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+
+class SchedulePage extends StatefulWidget{
+  @override
+  _SchedulePageState createState() => _SchedulePageState();
+}
+
+class _SchedulePageState extends State<SchedulePage>{
+  List Schedule;
+
+  Future getschedule() async{
+    http.Response response;
+    response = await http.get(Uri.parse("https://fly.sportsdata.io/v3/nba/scores/json/Games/2021POST?key=74019eae9e404d2e9b9e5b707922b7f9"));
+    setState(() {
+      if (response.statusCode==200){
+        Schedule = json.decode(response.body);
+    }}
+    );
+  }
+  @override
+  void initState() {
+    getschedule();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: Scaffold(
+    body: ListView.builder(
+      shrinkWrap: true,
+
+      itemBuilder: (context, index){
+        return Column(
+          children:[
+            Padding(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  child:  Text(Schedule[index]["HomeTeam"], style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),),
+                )
+            ),
+            Padding(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  child: Text("VS", style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),),
+                )
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                child:  Text(Schedule[index]["AwayTeam"], style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),),
+              )
+            ),
+
+            Padding(padding: EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Status: ",
+                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        child: Text(
+                          Schedule[index]["Status"].toString(), style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.red.shade900,
+                            fontWeight: FontWeight.bold),),
+                      )
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Channel: ",
+                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        child: Text(
+                          Schedule[index]["Channel"].toString(), style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.red.shade900,
+                            fontWeight: FontWeight.bold),),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Date: ",
+                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        child: Text(
+                          Schedule[index]["Day"].toString(), style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.red.shade900,
+                            fontWeight: FontWeight.bold),),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                    width: double.infinity,
+                    child: Divider(color: Colors.red.shade900, thickness: 5,),
+                  ),
+                ],
+              ),
+            )
+          ]
+        );
+      }
+
+    ),
+    )
+    );
+  }
+
+}

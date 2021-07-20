@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hoop_talk/views/home.dart';
+import 'package:flutter_hoop_talk/NavigationBar.dart';
 void main() {
   runApp(MyApp());
 }
@@ -9,13 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'HoopSters',
       debugShowCheckedModeBanner: false,
+      title: 'HoopSters',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: NavBar(),
     );
   }
 }
