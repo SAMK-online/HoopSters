@@ -1,4 +1,4 @@
-# flutter_hoop_talk
+# HoopSters
 
 A new Flutter application.
 
